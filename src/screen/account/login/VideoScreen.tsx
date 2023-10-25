@@ -8,35 +8,68 @@ import {
   Image,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import Video from 'react-native-video';
+//style
 import {font} from '../../../styles/globalStyles';
+//third party
+import Video from 'react-native-video';
 import {login} from '@react-native-seoul/kakao-login';
 import ReactNativeIdfaAaid, {
   AdvertisingInfoResponse,
 } from '@sparkfabrik/react-native-idfa-aaid';
-
-const VideoScreen = () => {
+//api
+import api from '../../../api/controller/kakao';
+//localstorage
+import {setItem} from '../../../store/localStorage';
+//store
+import {useAppDispatch} from '../../../store';
+import userSlice from '../../../slices/user';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {ParamListBase} from '@react-navigation/native';
+type Props = {
+  navigation: NativeStackNavigationProp<ParamListBase, 'VideoScreen'>;
+};
+const VideoScreen = ({navigation}: Props) => {
+  const dispatch = useAppDispatch();
   const backgroundVideo = require('../../../assets/main.mp4');
-  const [adid, setAdid] = useState<string | null>(null);
+  const [adid, setAdid] = useState<string>('');
   useEffect(() => {
     ReactNativeIdfaAaid.getAdvertisingInfo()
       .then((res: AdvertisingInfoResponse) => {
-        console.log(res);
-        !res.isAdTrackingLimited ? setAdid(res.id) : setAdid(null);
+        !res.isAdTrackingLimited ? setAdid(res.id as string) : setAdid('');
       })
       .catch(err => {
-        setAdid(null);
+        setAdid('');
       });
   }, []);
   const handleKakaoLogin = async (): Promise<void> => {
     try {
-      const result = await login();
+      const kakao = await login();
       const payload = {
-        kakaoAccessToken: result.accessToken,
-        kakaoRefreshToken: result.refreshToken,
+        kakaoAccessToken: kakao.accessToken,
+        kakaoRefreshToken: kakao.refreshToken,
         adid: adid,
       };
-      console.log(payload);
+      const user = await api['176'](payload);
+      if (user) {
+        if (user.state === 'existingUser') {
+          setItem('refreshToken', user.existingUser?.refreshToken);
+          dispatch(
+            userSlice.actions.setAccessToken({
+              accessToken: user.existingUser?.accessToken,
+            }),
+          );
+          dispatch(
+            userSlice.actions.setUser({
+              user: user.existingUser?.user,
+            }),
+          );
+          navigation.navigate('Home');
+        } else if (user.state === 'newUser') {
+          console.log('새로운 유저다 회원가입 시키자');
+        } else if (user.state === 'withdrawUser') {
+          console.log('1주일 이내 탈퇴한 유저다!');
+        }
+      }
     } catch (err) {
       console.error(err);
     }

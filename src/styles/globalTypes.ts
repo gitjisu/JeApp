@@ -3,3 +3,8 @@ export interface fontTheme {
   preReg: string;
   cafeBold: string;
 }
+
+export interface layoutTheme {
+  flex1: number;
+}
+

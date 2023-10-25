@@ -3,7 +3,8 @@ import React from 'react';
 import {ParamListBase} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
-interface Props {
+
+type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, 'Gathering'>;
 }
 

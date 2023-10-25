@@ -1,4 +1,4 @@
-const SERVER = 'https://oe-server-test.com';
+const SERVER = 'https://oe-server-test.com/api/app';
 const COMMON = '/v4';
 
 const kakao = {

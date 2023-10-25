@@ -403,6 +403,8 @@ PODS:
   - RNScreens (3.25.0):
     - React-Core
     - React-RCTImage
+  - RNSVG (13.14.0):
+    - React-Core
   - SocketRocket (0.6.1)
   - sparkfabrik-react-native-idfa-aaid (1.0.2):
     - React
@@ -475,6 +477,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - "sparkfabrik-react-native-idfa-aaid (from `../node_modules/@sparkfabrik/react-native-idfa-aaid`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -581,6 +584,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   sparkfabrik-react-native-idfa-aaid:
     :path: "../node_modules/@sparkfabrik/react-native-idfa-aaid"
   Yoga:
@@ -645,6 +650,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 77aa3714a353cfb1a5f5e315e8af5154cd3d9402
   ReactCommon: a29dac86d7219579db079cef8f380ebffe1ba545
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
+  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   sparkfabrik-react-native-idfa-aaid: 6822d5752b64fd8dd004487220e892232a23974d
   Yoga: 0518155cfbcc68c56223422f6a20a71b82e307d2

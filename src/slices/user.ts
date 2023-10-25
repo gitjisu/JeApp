@@ -1,7 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-const initialState = {
-  isLoggedIn: false,
+type User = {
+  nickname: string
+}
+
+type InitialState = {
+  accessToken: string
+  user: null | User
+}
+
+const initialState: InitialState = {
+  accessToken: '',
+  user: null,
 };
 
 const userSlice = createSlice({
@@ -9,8 +19,11 @@ const userSlice = createSlice({
   initialState,
   // mutation
   reducers: {
-    setIsLoggedIn(state, action) {
-      state.isLoggedIn = action.payload.isLoggedIn;
+    setUser(state, action) {
+      state.user = action.payload.user;
+    },
+    setAccessToken(state, action) {
+      state.accessToken = action.payload.accessToken;
     },
   },
   extraReducers: builder => {},

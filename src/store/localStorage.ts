@@ -1,13 +1,20 @@
-import EncryptedStorage from 'react-native-encrypted-storage/lib/typescript/EncryptedStorage';
+import EncryptedStorage from "react-native-encrypted-storage";
 
-const getItem = async (key: string, value: any) => {
-  return EncryptedStorage.getItem(key.toString()).then(value => {
+export const getItem = async (key: string) => {
+  try {
+    const value = await EncryptedStorage.getItem(key);
     return value;
-  });
+  } catch (error) {
+    console.error('오류 발생:', error);
+    throw error; // 오류를 호출한 곳으로 전파
+  }
 };
 
-const setItem = async (key: string, value: any) => {
-  return EncryptedStorage.setItem(key, value);
+export const setItem = async (key: string, value: any) => {
+  try {
+    await EncryptedStorage.setItem(key, value);
+  } catch (error) {
+    console.error('오류 발생:', error);
+    throw error; // 오류를 호출한 곳으로 전파
+  }
 };
-
-export default {getItem, setItem};

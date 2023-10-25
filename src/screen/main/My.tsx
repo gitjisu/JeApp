@@ -21,11 +21,7 @@ const My = () => {
   return (
     <SafeAreaView>
       <View>
-        {isLoggedIn ? (
-          <Text>My</Text>
-        ) : (
-          <Text onPress={setLogginState}>로그인하러가기</Text>
-        )}
+        <Text></Text>
       </View>
     </SafeAreaView>
   );

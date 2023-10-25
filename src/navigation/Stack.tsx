@@ -260,7 +260,7 @@ const TabNav = () => {
 };
 
 const StackNav = () => {
-  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+  const isLoggedIn = useSelector((state: RootState) => state.user.accessToken);
   return isLoggedIn ? (
     <Stack.Navigator>
       <Stack.Group screenOptions={{headerShown: false}}>
