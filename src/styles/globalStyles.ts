@@ -2,6 +2,7 @@ import {Dimensions, Image} from 'react-native';
 import {fontTheme, layoutTheme} from './globalTypes';
 
 import {useWindowDimensions} from 'react-native';
+import {useResponsiveFontSize} from 'react-native-responsive-dimensions';
 
 const FIGMA_WINDOW_WIDTH = 360;
 const FIGMA_WINDOW_HEIGHT = 800;
@@ -14,6 +15,11 @@ export function widthPercentage2(width: number): number {
 export function heightPercentage2(height: number): number {
   const percentage = (height / FIGMA_WINDOW_HEIGHT) * 100;
   return useResponsiveScreenHeight(percentage);
+}
+
+export function fontPercentage2(size: number): number {
+  const percentage = size * 0.135;
+  return useResponsiveFontSize(percentage);
 }
 
 const percentageCalculation = (max: number, val: number) => max * (val / 100);

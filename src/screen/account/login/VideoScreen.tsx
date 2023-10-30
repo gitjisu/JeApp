@@ -25,8 +25,9 @@ import {useAppDispatch} from '../../../store';
 import userSlice from '../../../slices/user';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
+import {AppNavigationType, AppRouteProp} from '../../../navigation/StackBase';
 type Props = {
-  navigation: NativeStackNavigationProp<ParamListBase, 'VideoScreen'>;
+  navigation: AppNavigationType;
 };
 const VideoScreen = ({navigation}: Props) => {
   const dispatch = useAppDispatch();
