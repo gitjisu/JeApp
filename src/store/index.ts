@@ -8,7 +8,7 @@ const store = configureStore({
   middleware: getDefaultMiddleware => {
     if (__DEV__) {
       const createDebugger = require('redux-flipper').default;
-      return getDefaultMiddleware().concat(createDebugger()).concat(logger);
+      return getDefaultMiddleware().concat(createDebugger());
     }
     return getDefaultMiddleware();
   },

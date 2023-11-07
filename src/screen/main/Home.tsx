@@ -8,8 +8,12 @@ import {
   TextInput,
   Dimensions,
   ImageBackground,
+  NativeSyntheticEvent,
+  TextLayoutEventData,
+  Animated,
+  Easing,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/reducer';
@@ -23,6 +27,14 @@ import {
 import {ios} from '../../styles/iosTheme';
 import {AppNavigationType, AppRouteProp} from '../../navigation/StackBase';
 import HighlightText from 'react-native-highlight-underline-text';
+import LinearGradient from 'react-native-linear-gradient';
+
+import {useWindowDimensions} from 'react-native';
+import {all} from 'axios';
+
+import Type4 from '../../components/main/Home/Type4';
+import Type5 from '../../components/main/Home/Type5';
+import Type6 from '../../components/main/Home/Type6';
 type Props = {
   navigation: AppNavigationType;
   route: AppRouteProp.Home;
@@ -31,8 +43,56 @@ type Props = {
 const Home = ({navigation, route}: Props) => {
   const param = route.params;
   const user = useSelector((state: RootState) => state.user.user);
+  const onTextLayoutInAndroid = (
+    e: NativeSyntheticEvent<TextLayoutEventData>,
+  ) => {
+    setAllLines(e.nativeEvent.lines.length);
+    setIsTruncated(e.nativeEvent.lines.length > numberOfLines);
+  };
+  const onTextLayoutInIOS = (e: NativeSyntheticEvent<TextLayoutEventData>) => {
+    setAllLines(e.nativeEvent.lines.length);
+    setIsTruncated(e.nativeEvent.lines.length > numberOfLines);
+  };
+  const numberOfLines = 2;
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isTruncated, setIsTruncated] = useState<boolean>(false);
+  const [allLines, setAllLines] = useState<number>(0);
 
-  const originText = `응~👌🏻 어쩔티비~ 📺💁🏻‍♂️ 저쩔티비~📺 💁🏻‍♀️안물티비~안궁티비~뇌절티비~응~👌🏻`;
+  const [testH, setTestH] = useState<any>(heightPercentage2(320));
+
+  const handleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const {height} = useWindowDimensions();
+
+  const mounted = useRef(false);
+  const animatedHeight = useRef(new Animated.Value(testH)).current;
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+    } else {
+      const h = ((320 + (allLines - 2) * 22) / 800) * 100;
+      const newH = height * (h / 100);
+      Animated.timing(animatedHeight, {
+        toValue: newH,
+        easing: Easing.inOut(Easing.ease),
+        duration: 300, // 애니메이션 지속 시간
+        useNativeDriver: false, // 네이티브 드라이버 사용 여부
+      }).start();
+
+      setTestH(newH);
+    }
+  }, [isExpanded]);
+
+  const childRef1 = useRef();
+  const childRef2 = useRef();
+  const childRef3 = useRef();
+  const refreshComponent = () => {
+    navigation.reset({
+      routes: [{name: 'Home'}],
+    });
+  };
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -43,73 +103,21 @@ const Home = ({navigation, route}: Props) => {
             style={styles.bell}
             source={require('../../assets/bell.png')}></Image>
         </View>
-        {/* 댓글 없는 글만 있는 카드 */}
-        <View
-          style={[
-            styles.boxShadow,
-            styles.card,
-            {minHeight: heightPercentage2(320), width: widthPercentage2(328)},
-          ]}>
-          {/* 프로필 닉네임 */}
-          <View
-            style={{
-              paddingVertical: 20,
-              paddingHorizontal: 20,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <Image
-              source={require('../../assets/timo.png')}
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: 100,
-              }}></Image>
-            <Text
-              style={{
-                paddingLeft: 8,
-                fontFamily: font.preBold,
-                fontSize: 15,
-                color: '#555',
-              }}>
-              공속티모
-            </Text>
-          </View>
-          {/* 글 부분 */}
-          <View
-            style={{
-              paddingHorizontal: 20,
-              borderWidth: 1,
-            }}>
-            <Text
-              onTextLayout={e => {
-                if (Platform.OS === 'ios') {
-                  const showingText = e.nativeEvent.lines.reduce(
-                    (acc, curr) => acc + curr.text,
-                    '',
-                  );
-                  if (originText !== showingText) {
-                    console.log('준거임');
-                  }
-                  console.log(e.nativeEvent.lines);
-
-                  // console.log('ios', e.nativeEvent.lines);
-                } else {
-                  // console.log('andriod', e.nativeEvent.lines);
-                }
-              }}
-              ellipsizeMode="tail"
-              numberOfLines={2}
-              style={{
-                fontFamily: font.preReg,
-                fontSize: fontPercentage2(15),
-                color: '#505050',
-                lineHeight: 22,
-              }}>
-              {originText}
-            </Text>
-          </View>
-        </View>
+        <Type6
+          navigation={navigation}
+          ref={childRef3}
+          refreshComponent={refreshComponent}
+        />
+        <Type5
+          navigation={navigation}
+          ref={childRef1}
+          refreshComponent={refreshComponent}
+        />
+        <Type4
+          navigation={navigation}
+          ref={childRef2}
+          refreshComponent={refreshComponent}
+        />
         {/* 모주 */}
         <View
           style={[

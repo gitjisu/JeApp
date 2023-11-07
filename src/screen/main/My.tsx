@@ -9,19 +9,12 @@ import uiSlice from '../../slices/ui';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const My = () => {
-  const dispatch = useAppDispatch();
-  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
-  const setLogginState = () => {
-    dispatch(
-      userSlice.actions.setIsLoggedIn({
-        isLoggedIn: true,
-      }),
-    );
-  };
+
+
   return (
     <SafeAreaView>
       <View>
-        <Text></Text>
+        <Text>gd</Text>
       </View>
     </SafeAreaView>
   );

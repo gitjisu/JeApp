@@ -1,5 +1,5 @@
-import React from 'react';
-import {Platform, StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
+import {Platform, StyleSheet, Dimensions} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Image, Animated} from 'react-native';
@@ -23,6 +23,7 @@ import {RootState} from '../store/reducer';
 
 // none login
 import VideoScreen from '../screen/account/login/VideoScreen';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 const TabNav = () => {
   return (
@@ -37,6 +38,7 @@ const TabNav = () => {
           tabBarItemStyle: {
             height: 0,
           },
+
           tabBarIcon: ({focused}) => {
             // 이미지 크기에 따라 Animated.Value 설정
             const translateY = new Animated.Value(0);
@@ -124,6 +126,7 @@ const TabNav = () => {
         name="Home"
         component={Home}
         options={{
+          unmountOnBlur: true,
           tabBarItemStyle: {
             height: 0,
           },
@@ -261,6 +264,8 @@ const TabNav = () => {
 
 const StackNav = () => {
   const isLoggedIn = useSelector((state: RootState) => state.user.accessToken);
+  
+
   return isLoggedIn ? (
     <Stack.Navigator>
       <Stack.Group screenOptions={{headerShown: false}}>

@@ -4,6 +4,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 export type RootStackParamList = {
   VideoScreen: undefined;
   Home: undefined;
+  My: undefined;
 };
 
 export namespace AppRouteProp {
