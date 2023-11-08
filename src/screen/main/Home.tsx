@@ -103,7 +103,7 @@ const Home = ({navigation, route}: Props) => {
             style={styles.bell}
             source={require('../../assets/bell.png')}></Image>
         </View>
-        <Type6
+        {/* <Type6
           navigation={navigation}
           ref={childRef3}
           refreshComponent={refreshComponent}
@@ -112,7 +112,7 @@ const Home = ({navigation, route}: Props) => {
           navigation={navigation}
           ref={childRef1}
           refreshComponent={refreshComponent}
-        />
+        /> */}
         <Type4
           navigation={navigation}
           ref={childRef2}

@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (5.8.1)
+  - Alamofire (5.8.0)
   - boost (1.76.0)
   - BVLinearGradient (2.8.3):
     - React-Core
@@ -634,7 +634,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  Alamofire: 3ca42e259043ee0dc5c0cdd76c4bc568b8e42af7
+  Alamofire: 0e92e751b3e9e66d7982db43919d01f313b8eb91
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
@@ -703,4 +703,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 2c8f8749044157f120258da89eb87d4b8c40fef3
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.13.0

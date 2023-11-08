@@ -149,15 +149,40 @@ const Type4 = forwardRef(
         ratio = ratio3;
       }
     };
-
     const [carouselIndex, setCarouselIndex] = useState(0);
-    const progressValue = useSharedValue<number>(0);
 
-    const animatedValues = new Animated.Value(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const animatedValues = useRef(new Animated.Value(0)).current;
+    const dotBoxPosition = new Animated.Value(carouselIndex * -13);
+    const intCarouselIndex = new Animated.Value(Math.floor(carouselIndex));
+    const animatedBigDot = new Animated.Value(0.8);
+
+    // 1.2 에서 0.8 이 되는데, 그 변화값은 위 식 기준으로 0.5 이상 1 미만이다.
+    // 캐러세 인덱스가 0.5에서 1까지는 커지고, 1에서 1.5까지는 다시 작아진다.
+    // 현재 케러셀이 1이라면, 1에서 0.5까지는 절대값이 0.1~ 0.2 0.5 가 되고,
+    // 1에서 1.5도 0.1~0.2~0.5 가 된다.
+    // 이 비율에 맞춰서 스케일 범위가 바뀌면 될듯?
+    // 그러면
 
     useEffect(() => {
       Animated.timing(animatedValues, {
         toValue: 1,
+        duration: 100,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: false,
+      }).start();
+    }, []);
+
+    useEffect(() => {
+      Animated.timing(dotBoxPosition, {
+        toValue: -13 * carouselIndex,
+        duration: 100,
+        easing: Easing.inOut(Easing.cubic),
+        useNativeDriver: false,
+      }).start();
+
+      Animated.timing(animatedBigDot, {
+        toValue: 1.2,
         duration: 100,
         easing: Easing.inOut(Easing.ease),
         useNativeDriver: false,
@@ -273,8 +298,8 @@ const Type4 = forwardRef(
           height={resizeCarouselHeight}
           style={{marginTop: 16}}
           data={[...CAROUSEL_IMAGE]}
-          onSnapToItem={index => {
-            setCarouselIndex(index);
+          onProgressChange={(_, absoluteProgress) => {
+            setCarouselIndex(absoluteProgress);
           }}
           renderItem={({index}) => (
             <View>
@@ -291,39 +316,91 @@ const Type4 = forwardRef(
             flexDirection: 'row',
             justifyContent: 'center',
           }}>
-          {CAROUSEL_IMAGE.map((_, index) => {
-            if (index === carouselIndex) {
-              return (
-                <>
-                  <Animated.View
-                    key={index}
-                    style={[
-                      styles.animatedDots,
-                      {
-                        backgroundColor: animatedValues.interpolate({
-                          inputRange: [0, 1],
-                          outputRange: ['#e5e5ec', '#333'],
-                        }),
-                      },
-                    ]}></Animated.View>
-                </>
-              );
-            } else {
-              return (
-                <>
-                  <View
-                    key={index}
-                    style={{
-                      width: 8,
-                      height: 8,
-                      backgroundColor: '#e5e5ec',
-                      marginLeft: 5,
-                      borderRadius: 100,
-                    }}></View>
-                </>
-              );
-            }
-          })}
+          <View style={{flex: 1}}></View>
+          <Animated.View
+            key={carouselIndex}
+            style={[
+              {
+                transform: [{translateX: dotBoxPosition}],
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                right: 10,
+                // borderWidth: 1,
+              },
+            ]}>
+            {CAROUSEL_IMAGE.map((_, index) => {
+              if (index - 0.5 < carouselIndex && carouselIndex < index + 0.5) {
+                return (
+                  <>
+                    {/* <Text>{carouselIndex}</Text> */}
+                    <Animated.View
+                      key={index}
+                      style={{
+                        width: 8,
+                        height: 8,
+                        backgroundColor: '#333',
+                        marginLeft: 5,
+                        borderRadius: 100,
+                        transform: [{scale: 1.2}],
+                      }}></Animated.View>
+                  </>
+                );
+              } else {
+                if (
+                  Math.abs(index - carouselIndex) > 0.5 &&
+                  Math.abs(index - carouselIndex) < 1.5
+                ) {
+                  return (
+                    <>
+                      <View
+                        key={index}
+                        style={{
+                          width: 8,
+                          height: 8,
+                          backgroundColor: '#e5e5ec',
+                          marginLeft: 5,
+                          borderRadius: 100,
+                          transform: [{scale: 0.8}],
+                        }}></View>
+                    </>
+                  );
+                } else if (
+                  Math.abs(index - carouselIndex) > 1.5 &&
+                  Math.abs(index - carouselIndex) < 2.5
+                ) {
+                  return (
+                    <>
+                      <View
+                        key={index}
+                        style={{
+                          width: 8,
+                          height: 8,
+                          backgroundColor: '#e5e5ec',
+                          marginLeft: 5,
+                          borderRadius: 100,
+                          transform: [{scale: 0.5}],
+                        }}></View>
+                    </>
+                  );
+                }
+                return (
+                  <>
+                    <View
+                      key={index}
+                      style={{
+                        transform: [{scale: 0}],
+                        width: 8,
+                        height: 8,
+                        backgroundColor: '#e5e5ec',
+                        marginLeft: 5,
+                        borderRadius: 100,
+                      }}></View>
+                  </>
+                );
+              }
+            })}
+          </Animated.View>
         </View>
         <View
           style={{
