@@ -41,7 +41,7 @@ type Props = {
 
 const cardHeight = 249;
 const CAROUSEL_IMAGE = [
-  require('../../../assets/timo.png'),
+  require('../../../assets/jungkook1.png'),
   require('../../../assets/sony.png'),
   require('../../../assets/overwatch.png'),
   require('../../../assets/timo.png'),
@@ -333,7 +333,6 @@ const Type4 = forwardRef(
               if (index - 0.5 < carouselIndex && carouselIndex < index + 0.5) {
                 return (
                   <>
-                    {/* <Text>{carouselIndex}</Text> */}
                     <Animated.View
                       key={index}
                       style={{
@@ -342,7 +341,7 @@ const Type4 = forwardRef(
                         backgroundColor: '#333',
                         marginLeft: 5,
                         borderRadius: 100,
-                        transform: [{scale: 1.2}],
+                        transform: [{scale: 1.0}],
                       }}></Animated.View>
                   </>
                 );
@@ -361,7 +360,7 @@ const Type4 = forwardRef(
                           backgroundColor: '#e5e5ec',
                           marginLeft: 5,
                           borderRadius: 100,
-                          transform: [{scale: 0.8}],
+                          transform: [{scale: 0.7}],
                         }}></View>
                     </>
                   );
@@ -379,7 +378,7 @@ const Type4 = forwardRef(
                           backgroundColor: '#e5e5ec',
                           marginLeft: 5,
                           borderRadius: 100,
-                          transform: [{scale: 0.5}],
+                          transform: [{scale: 0.4}],
                         }}></View>
                     </>
                   );

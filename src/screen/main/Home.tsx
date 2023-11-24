@@ -11,6 +11,7 @@ import {
   NativeSyntheticEvent,
   TextLayoutEventData,
   Animated,
+  Button,
   Easing,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
@@ -103,6 +104,7 @@ const Home = ({navigation, route}: Props) => {
             style={styles.bell}
             source={require('../../assets/bell.png')}></Image>
         </View>
+
         {/* <Type6
           navigation={navigation}
           ref={childRef3}
@@ -110,12 +112,12 @@ const Home = ({navigation, route}: Props) => {
         />
         <Type5
           navigation={navigation}
-          ref={childRef1}
+          ref={childRef2}
           refreshComponent={refreshComponent}
         /> */}
         <Type4
           navigation={navigation}
-          ref={childRef2}
+          ref={childRef1}
           refreshComponent={refreshComponent}
         />
         {/* 모주 */}

@@ -1,14 +1,14 @@
 import axios from 'axios';
 import kakao from '../urls/kakao';
 import {
-  KakaoAuthenticationSend,
-  KakaoAuthenticationReceive,
+  send176,
+  receive176,
 } from '../type/kakao';
 import EncryptedStorage from 'react-native-encrypted-storage/lib/typescript/EncryptedStorage';
 import {getItem, setItem} from '../../store/localStorage';
 
-const api = {
-  '176': async (payload: KakaoAuthenticationSend) => {
+const kakaoApiController = {
+  '176': async (payload: send176) => {
     return await axios({
       url: kakao['176'](),
       method: 'post',
@@ -19,7 +19,7 @@ const api = {
       },
     })
       .then(async res => {
-        const data: KakaoAuthenticationReceive = res.data;
+        const data: receive176 = res.data;
         return data;
       })
       .catch(err => {
@@ -28,4 +28,4 @@ const api = {
   },
 };
 
-export default api;
+export default kakaoApiController;

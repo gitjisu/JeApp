@@ -13,9 +13,20 @@ import Gathering from '../screen/main/Gathering';
 import Home from '../screen/main/Home';
 import My from '../screen/main/My';
 import MyGathering from '../screen/main/MyGathering';
-
+import ProfileImage from '../screen/account/signup/ProfileImage';
 // Gathering Screen
 import GatheringIndex from '../screen/gathering/Introduce/Index';
+
+//Signup
+import Agreement from '../screen/account/signup/Agreement';
+import AuthenticationPhoneNumber from '../screen/account/signup/AuthenticationPhoneNumber';
+import VerificationCode from '../screen/account/signup/\bVerificationCode';
+import Nickname from '../screen/account/signup/Nickname';
+import BirthYear from '../screen/account/signup/BirthYear';
+import Gender from '../screen/account/signup/Gender';
+import Interest from '../screen/account/signup/Interest';
+import Region from '../screen/account/signup/Region';
+import SignupComplete from '../screen/account/signup/SignupComplete';
 
 // store
 import {useSelector} from 'react-redux';
@@ -24,6 +35,8 @@ import {RootState} from '../store/reducer';
 // none login
 import VideoScreen from '../screen/account/login/VideoScreen';
 import {useNavigation, useRoute} from '@react-navigation/native';
+
+import Test from '../screen/account/signup/Test';
 
 const TabNav = () => {
   return (
@@ -264,7 +277,6 @@ const TabNav = () => {
 
 const StackNav = () => {
   const isLoggedIn = useSelector((state: RootState) => state.user.accessToken);
-  
 
   return isLoggedIn ? (
     <Stack.Navigator>
@@ -276,11 +288,66 @@ const StackNav = () => {
       </Stack.Group>
     </Stack.Navigator>
   ) : (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Agreement">
       <Stack.Group>
+        <Stack.Screen
+          name="SignupComplete"
+          component={SignupComplete}
+          options={{headerShown: false, gestureEnabled: false}}
+        />
         <Stack.Screen
           name="VideoScreen"
           component={VideoScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Agreement"
+          component={Agreement}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AuthenticationPhoneNumber"
+          component={AuthenticationPhoneNumber}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="VerificationCode"
+          component={VerificationCode}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Nickname"
+          component={Nickname}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BirthYear"
+          component={BirthYear}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Gender"
+          component={Gender}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ProfileImage"
+          component={ProfileImage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Interest"
+          component={Interest}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Region"
+          component={Region}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Test"
+          component={Test}
           options={{headerShown: false}}
         />
       </Stack.Group>

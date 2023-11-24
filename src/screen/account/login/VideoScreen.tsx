@@ -17,7 +17,7 @@ import ReactNativeIdfaAaid, {
   AdvertisingInfoResponse,
 } from '@sparkfabrik/react-native-idfa-aaid';
 //api
-import api from '../../../api/controller/kakao';
+import kakaoApiController from '../../../api/controller/kakao';
 //localstorage
 import {setItem} from '../../../store/localStorage';
 //store
@@ -50,7 +50,7 @@ const VideoScreen = ({navigation}: Props) => {
         kakaoRefreshToken: kakao.refreshToken,
         adid: adid,
       };
-      const user = await api['176'](payload);
+      const user = await kakaoApiController['176'](payload);
       if (user) {
         if (user.state === 'existingUser') {
           setItem('refreshToken', user.existingUser?.refreshToken);
@@ -64,7 +64,6 @@ const VideoScreen = ({navigation}: Props) => {
               user: user.existingUser?.user,
             }),
           );
-          navigation.navigate('Home');
         } else if (user.state === 'newUser') {
           console.log('새로운 유저다 회원가입 시키자');
         } else if (user.state === 'withdrawUser') {
@@ -77,7 +76,7 @@ const VideoScreen = ({navigation}: Props) => {
   };
 
   const handleOeLogin = () => {
-    console.log('오이로그인을 처리하자');
+    navigation.navigate('Agreement');
   };
   return (
     <View style={{flex: 1}}>

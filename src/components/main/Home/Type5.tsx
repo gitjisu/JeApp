@@ -51,7 +51,7 @@ const ratio2 = {width: 328, height: 328};
 const ratio3 = {width: 328, height: 410};
 let ratio: {width: number; height: number} | null = null;
 
-const Type4 = forwardRef(
+const Type5 = forwardRef(
   ({navigation, refreshComponent}: Props, ref: ForwardedRef<undefined>) => {
     // console.log('what')
     const onTextLayoutInAndroid = (
@@ -425,4 +425,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Type4;
+export default Type5;

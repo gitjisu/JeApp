@@ -1,13 +1,25 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 type User = {
-  nickname: string
-}
+  id: number;
+  phone: string;
+  img: string;
+  birthYear: number;
+  interestList: string[];
+  regionCode: string;
+  agreeFcm: boolean;
+  agreeFcmAd: boolean;
+  agreeFcmChat: boolean;
+  agreeFcmMy: boolean;
+  oeList: Object[];
+  nickname: string;
+  ban: boolean;
+};
 
 type InitialState = {
-  accessToken: string
-  user: null | User
-}
+  accessToken: string;
+  user: null | User;
+};
 
 const initialState: InitialState = {
   accessToken: '',

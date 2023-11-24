@@ -5,6 +5,17 @@ export type RootStackParamList = {
   VideoScreen: undefined;
   Home: undefined;
   My: undefined;
+  Agreement: undefined;
+  AuthenticationPhoneNumber: undefined;
+  VerificationCode: undefined;
+  Test: undefined;
+  Nickname: undefined;
+  BirthYear: undefined;
+  Gender: undefined;
+  ProfileImage: undefined;
+  Interest: undefined;
+  Region: undefined;
+  SignupComplete: undefined;
 };
 
 export namespace AppRouteProp {
