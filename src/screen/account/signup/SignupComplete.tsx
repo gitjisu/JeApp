@@ -12,18 +12,38 @@ import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 //components
 import BackButton from '../../../components/UI/BackButton';
-import {AppNavigationType} from '../../../navigation/StackBase';
+import {AppNavigationType, AppRouteProp} from '../../../navigation/StackBase';
 import {ios} from '../../../styles/iosTheme';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../store/reducer';
 import {font} from '../../../styles/globalStyles';
 
+//storage
+import {setItem} from '../../../store/localStorage';
+import {useAppDispatch} from '../../../store';
+import userSlice from '../../../slices/user';
+
 type Props = {
   navigation: AppNavigationType;
+  route: AppRouteProp.SignupComplete;
 };
 
-const SignupComplete = ({navigation}: Props) => {
-  const user = useSelector((state: RootState) => state.user.user);
+const SignupComplete = ({navigation, route}: Props) => {
+  const params = route.params;
+  const dispatch = useAppDispatch();
+  const handleLogin = () => {
+    setItem('refreshToken', params.response?.refreshToken);
+    dispatch(
+      userSlice.actions.setAccessToken({
+        accessToken: params.response?.accessToken,
+      }),
+    );
+    dispatch(
+      userSlice.actions.setUser({
+        user: params.response?.user,
+      }),
+    );
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#ffffff'}}>
       <View style={{flex: 1, justifyContent: 'flex-end'}}>
@@ -45,9 +65,9 @@ const SignupComplete = ({navigation}: Props) => {
             }}>
             회원이 되신걸 축하해요!{'\n'}즐거운 취미모임을 응원할게요!
           </Text>
-          {user?.img ? (
+          {params.response?.user.img ? (
             <Image
-              source={{uri: user?.img}}
+              source={{uri: params.response?.user.img}}
               style={{width: 128, height: 128, borderRadius: 100}}
             />
           ) : (
@@ -63,9 +83,7 @@ const SignupComplete = ({navigation}: Props) => {
       </View>
       <View style={{flex: 1, justifyContent: 'center'}}></View>
       <Pressable
-        onPress={() => {
-          navigation.navigate('Home');
-        }}
+        onPress={handleLogin}
         style={{
           height: Platform.OS === 'ios' ? 48 + ios.BOTTOM_INDICATOR_HEIGHT : 48,
           position: 'absolute',

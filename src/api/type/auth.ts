@@ -59,7 +59,7 @@ export type receive3 = null | {
     id: number;
     phone: string;
     nickname: string;
-    image: string;
+    img: string;
     birthYear: number;
     interestList: string[];
     regionCode: string;
@@ -71,4 +71,18 @@ export type receive3 = null | {
     ban: boolean;
     gender: number;
   };
+};
+
+export type send8 = {
+  phone: string;
+};
+
+export type receive8 = {
+  existence: boolean;
+};
+
+export type receive155 = null | {
+  startAt: Date;
+  until: null | Date;
+  comment: string;
 };

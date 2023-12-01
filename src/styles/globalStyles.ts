@@ -25,7 +25,6 @@ export function fontPercentage2(size: number): number {
 const percentageCalculation = (max: number, val: number) => max * (val / 100);
 
 const useResponsiveScreenWidth = (w: number) => {
-  // console.log('아무거나')
   const {width} = useWindowDimensions();
   return percentageCalculation(width, w);
 };

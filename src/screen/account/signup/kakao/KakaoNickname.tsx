@@ -11,28 +11,28 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useEffect, useState} from 'react';
 
 //components
-import BackButton from '../../../components/UI/BackButton';
-import KeyboardDismiss from '../../../components/UI/KeybordDismiss';
-import {AppNavigationType} from '../../../navigation/StackBase';
-import {font} from '../../../styles/globalStyles';
-import NextButton from '../../../components/UI/NextButton';
+import BackButton from '../../../../components/UI/BackButton';
+import KeyboardDismiss from '../../../../components/UI/KeybordDismiss';
+import {AppNavigationType} from '../../../../navigation/StackBase';
+import {font} from '../../../../styles/globalStyles';
+import NextButton from '../../../../components/UI/NextButton';
 // file
-import {bad} from '../../../assets/js/bad-words';
+import {bad} from '../../../../assets/js/bad-words';
 
 // 3rd party
 import {debounceTime, filter, tap, Subject, distinctUntilChanged} from 'rxjs';
 
 // api
-import authApiController from '../../../api/controller/auth';
-import {ios} from '../../../styles/iosTheme';
-import {useAppDispatch} from '../../../store';
-import authSlice from '../../../slices/auth';
+import authApiController from '../../../../api/controller/auth';
+import {ios} from '../../../../styles/iosTheme';
+import {useAppDispatch} from '../../../../store';
+import authSlice from '../../../../slices/auth';
 
 type Props = {
   navigation: AppNavigationType;
 };
 
-const Nickname = ({navigation}: Props) => {
+const KakaoNickname = ({navigation}: Props) => {
   const dispatch = useAppDispatch();
   const [name, setName] = useState<string>('');
   const [isCharPassed, setIsCharPassed] = useState<boolean>(true);
@@ -175,7 +175,7 @@ const Nickname = ({navigation}: Props) => {
 
   const handleNextPage = () => {
     dispatch(authSlice.actions.setNickname({nickname: name}));
-    navigation.navigate('BirthYear');
+    navigation.navigate('KakaoInterest');
   };
 
   const [nextButtonText] = useState('다음');
@@ -197,6 +197,7 @@ const Nickname = ({navigation}: Props) => {
               fontFamily: font.preReg,
               color: '#000000',
             }}>
+            카카오{'\n'}
             오이에서 사용할{'\n'}
             닉네임을 입력해주세요
           </Text>
@@ -253,4 +254,4 @@ const Nickname = ({navigation}: Props) => {
   );
 };
 
-export default Nickname;
+export default KakaoNickname;

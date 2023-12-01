@@ -6,7 +6,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import StackNav from './src/navigation/Stack';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-
+if (__DEV__) {
+  import('./config').then(() => console.log('Reactotron Configured'));
+}
 const App = () => {
   return (
     <GestureHandlerRootView style={{flex: 1}}>

@@ -6,6 +6,7 @@ import {
   Pressable,
   Platform,
   Image,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 //style
@@ -26,20 +27,24 @@ import userSlice from '../../../slices/user';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import {AppNavigationType, AppRouteProp} from '../../../navigation/StackBase';
+import authSlice from '../../../slices/auth';
 type Props = {
   navigation: AppNavigationType;
 };
 const VideoScreen = ({navigation}: Props) => {
   const dispatch = useAppDispatch();
   const backgroundVideo = require('../../../assets/main.mp4');
-  const [adid, setAdid] = useState<string>('');
+  const adid = useRef('');
+
   useEffect(() => {
     ReactNativeIdfaAaid.getAdvertisingInfo()
       .then((res: AdvertisingInfoResponse) => {
-        !res.isAdTrackingLimited ? setAdid(res.id as string) : setAdid('');
+        !res.isAdTrackingLimited
+          ? (adid.current = res.id as string)
+          : (adid.current = '');
       })
       .catch(err => {
-        setAdid('');
+        adid.current = '';
       });
   }, []);
   const handleKakaoLogin = async (): Promise<void> => {
@@ -48,26 +53,74 @@ const VideoScreen = ({navigation}: Props) => {
       const payload = {
         kakaoAccessToken: kakao.accessToken,
         kakaoRefreshToken: kakao.refreshToken,
-        adid: adid,
+        adid: adid.current,
       };
       const user = await kakaoApiController['176'](payload);
       if (user) {
         if (user.state === 'existingUser') {
-          setItem('refreshToken', user.existingUser?.refreshToken);
-          dispatch(
-            userSlice.actions.setAccessToken({
-              accessToken: user.existingUser?.accessToken,
-            }),
-          );
-          dispatch(
-            userSlice.actions.setUser({
-              user: user.existingUser?.user,
-            }),
-          );
+          if (user.existingUser?.user.ban) {
+            navigation.navigate('Ban', {id: user.existingUser.user.id});
+          } else {
+            setItem('refreshToken', user.existingUser?.refreshToken);
+            dispatch(
+              userSlice.actions.setAccessToken({
+                accessToken: user.existingUser?.accessToken,
+              }),
+            );
+            dispatch(
+              userSlice.actions.setUser({
+                user: user.existingUser?.user,
+              }),
+            );
+          }
         } else if (user.state === 'newUser') {
-          console.log('새로운 유저다 회원가입 시키자');
+          if (user.newUser?.nickname) {
+            dispatch(authSlice.actions.setPhone({phone: user.newUser?.phone}));
+            dispatch(
+              authSlice.actions.setNickname({nickname: user.newUser?.nickname}),
+            );
+            dispatch(
+              authSlice.actions.setBirthYear({
+                birthYear: user.newUser?.birthYear,
+              }),
+            );
+            dispatch(
+              authSlice.actions.setGender({gender: user.newUser?.gender}),
+            );
+            if (user.newUser?.image) {
+              dispatch(
+                authSlice.actions.setProfileImage({
+                  profileImage: user.newUser?.image,
+                }),
+              );
+            }
+            navigation.navigate('KakaoInterest');
+          } else {
+            dispatch(authSlice.actions.setPhone({phone: user.newUser?.phone}));
+            dispatch(
+              authSlice.actions.setBirthYear({
+                birthYear: user.newUser?.birthYear,
+              }),
+            );
+            dispatch(
+              authSlice.actions.setGender({gender: user.newUser?.gender}),
+            );
+            if (user.newUser?.image) {
+              dispatch(
+                authSlice.actions.setProfileImage({
+                  profileImage: user.newUser?.image,
+                }),
+              );
+            }
+            navigation.navigate('KakaoNickname');
+          }
         } else if (user.state === 'withdrawUser') {
-          console.log('1주일 이내 탈퇴한 유저다!');
+          Alert.alert('가입불가', '1주일 이내 탈퇴 유저라능', [
+            {
+              text: 'Ok',
+              style: 'cancel',
+            },
+          ]);
         }
       }
     } catch (err) {
@@ -76,7 +129,7 @@ const VideoScreen = ({navigation}: Props) => {
   };
 
   const handleOeLogin = () => {
-    navigation.navigate('Agreement');
+    navigation.navigate('AuthenticationPhoneNumber');
   };
   return (
     <View style={{flex: 1}}>

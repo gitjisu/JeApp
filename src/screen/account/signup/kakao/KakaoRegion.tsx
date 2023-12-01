@@ -5,21 +5,22 @@ import {
   FlatList,
   Pressable,
   BackHandler,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState, useMemo, useRef, useCallback} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 // component
-import {AppNavigationType} from '../../../navigation/StackBase';
-import BackButton from '../../../components/UI/BackButton';
-import NextButton from '../../../components/UI/NextButton';
-import {font} from '../../../styles/globalStyles';
+import {AppNavigationType} from '../../../../navigation/StackBase';
+import BackButton from '../../../../components/UI/BackButton';
+import NextButton from '../../../../components/UI/NextButton';
+import {font} from '../../../../styles/globalStyles';
 
 // json
 import {
   filterRegionKeysEndingWith00,
   filterMinorRegionByMajorCode,
-} from '../../../assets/json/regionFuction';
-import regionCode from '../../../assets/json/regionCode.json';
+} from '../../../../assets/json/regionFuction';
+import regionCode from '../../../../assets/json/regionCode.json';
 
 //modal
 import {
@@ -32,13 +33,13 @@ import {
 import {Easing} from 'react-native-reanimated';
 
 // api
-import {useAppDispatch} from '../../../store';
-import authSlice from '../../../slices/auth';
+import {useAppDispatch} from '../../../../store';
+import authSlice from '../../../../slices/auth';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../../store/reducer';
-import authApiController from '../../../api/controller/auth';
-import {setItem} from '../../../store/localStorage';
-import userSlice from '../../../slices/user';
+import {RootState} from '../../../../store/reducer';
+import authApiController from '../../../../api/controller/auth';
+import {setItem} from '../../../../store/localStorage';
+import userSlice from '../../../../slices/user';
 
 type Props = {
   navigation: AppNavigationType;
@@ -51,7 +52,7 @@ type RegionJson = {
   };
 };
 
-const Region = ({navigation}: Props) => {
+const KakaoRegion = ({navigation}: Props) => {
   const dispatch = useAppDispatch();
   // 모달
   const snapPoints = useMemo(() => ['65%'], []);
@@ -159,13 +160,16 @@ const Region = ({navigation}: Props) => {
       agreeFcmAd: true,
       adid: '',
     };
-    console.log('회원가입이걸루보내야징', payload);
     const response = await authApiController['3'](payload);
     if (response != null) {
-      console.log('회ㄱ원가입제출햇구 결과임', response);
       navigation.navigate('SignupComplete', {response});
     } else {
-      console.log('가입실패');
+      Alert.alert('인터넷연결끊김', '회원가입 실패 네트워크를 확인해주세요', [
+        {
+          text: 'Ok',
+          style: 'cancel',
+        },
+      ]);
     }
   };
 
@@ -185,6 +189,7 @@ const Region = ({navigation}: Props) => {
             fontFamily: font.preReg,
             color: '#000000',
           }}>
+          카카오가입{'\n'}
           사는 지역을 설정해주세요
         </Text>
       </Animated.View>
@@ -273,4 +278,4 @@ const Region = ({navigation}: Props) => {
   );
 };
 
-export default Region;
+export default KakaoRegion;

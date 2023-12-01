@@ -23,7 +23,7 @@ const kakaoApiController = {
         return data;
       })
       .catch(err => {
-        console.log('176 실패', err);
+        console.error('api176error', err);
       });
   },
 };

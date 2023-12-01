@@ -17,7 +17,7 @@ const etcApiController = {
         return data;
       })
       .catch(err => {
-        console.error('이미지 전송 실패', err);
+        console.error('api123error', err);
       });
   },
 };

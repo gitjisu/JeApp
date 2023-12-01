@@ -16,7 +16,7 @@ import BackButton from '../../../components/UI/BackButton';
 import {AppNavigationType} from '../../../navigation/StackBase';
 import {ios} from '../../../styles/iosTheme';
 import {font} from '../../../styles/globalStyles';
-
+import NextButton from '../../../components/UI/NextButton';
 //api
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../store/reducer';
@@ -144,6 +144,8 @@ const BirthYear = ({navigation}: Props) => {
     dispatch(authSlice.actions.setBirthYear({birthYear: year}));
     navigation.navigate('Gender');
   };
+
+  const [nextButtonText] = useState('다음');
   return (
     <SafeAreaView style={{backgroundColor: '#ffffff', flex: 1}}>
       <BackButton navigation={navigation} />
@@ -226,31 +228,12 @@ const BirthYear = ({navigation}: Props) => {
         />
       </BottomSheetModal>
 
-      <Pressable
-        onPress={() => {
-          isNextPossible ? handleNextPage() : startShakeAnimation();
-        }}
-        style={{
-          height: Platform.OS === 'ios' ? 48 + ios.BOTTOM_INDICATOR_HEIGHT : 48,
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-          justifyContent: 'center',
-          backgroundColor: isNextPossible ? '#25a765' : '#F2F2F2',
-        }}>
-        <Text
-          style={{
-            textAlign: 'center',
-            fontFamily: font.preReg,
-            color: isNextPossible ? '#ffffff' : '#000000',
-            fontSize: 14,
-            lineHeight: 16.71,
-            paddingBottom:
-              Platform.OS === 'ios' ? ios.BOTTOM_INDICATOR_HEIGHT : undefined,
-          }}>
-          다음
-        </Text>
-      </Pressable>
+      <NextButton
+        isNextPossible={isNextPossible}
+        handleNextPage={handleNextPage}
+        nextButtonText={nextButtonText}
+        shakeAnimation={startShakeAnimation}
+      />
     </SafeAreaView>
   );
 };

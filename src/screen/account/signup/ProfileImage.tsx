@@ -7,7 +7,7 @@ import BackButton from '../../../components/UI/BackButton';
 import {AppNavigationType} from '../../../navigation/StackBase';
 import {ios} from '../../../styles/iosTheme';
 import {font} from '../../../styles/globalStyles';
-
+import NextButton from '../../../components/UI/NextButton';
 //3rd party
 import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
@@ -65,9 +65,10 @@ const ProfileImage = ({navigation}: Props) => {
           name: fileName,
         });
         const url = await etcApiController['123'](form);
+        console.log('이미지 서버한테 바등ㅁ', url);
         dispatch(authSlice.actions.setProfileImage({profileImage: url}));
       } catch (error) {
-        console.log(error);
+        console.error('profileImageerror', error);
       }
     }
     navigation.navigate('Interest');
@@ -116,6 +117,8 @@ const ProfileImage = ({navigation}: Props) => {
         </Pressable>
         <Text>{nickname}</Text>
       </View>
+
+      {/* <NextButton isNextPossible={true} handleNextPage={handleNextPage} nextButtonText={image ? '다음' : '넘어가기'}/> */}
       <Pressable
         onPress={handleNextPage}
         style={{
@@ -124,13 +127,13 @@ const ProfileImage = ({navigation}: Props) => {
           bottom: 0,
           width: '100%',
           justifyContent: 'center',
-          backgroundColor: image ? '#25a765' : '#f2f2f2',
+          backgroundColor: '#25a765',
         }}>
         <Text
           style={{
             textAlign: 'center',
             fontFamily: font.preReg,
-            color: image ? '#ffffff' : '#000000',
+            color: '#ffffff',
             fontSize: 14,
             lineHeight: 16.71,
             paddingBottom:

@@ -38,11 +38,9 @@ import Type5 from '../../components/main/Home/Type5';
 import Type6 from '../../components/main/Home/Type6';
 type Props = {
   navigation: AppNavigationType;
-  route: AppRouteProp.Home;
 };
 
-const Home = ({navigation, route}: Props) => {
-  const param = route.params;
+const Home = ({navigation}: Props) => {
   const user = useSelector((state: RootState) => state.user.user);
   const onTextLayoutInAndroid = (
     e: NativeSyntheticEvent<TextLayoutEventData>,

@@ -28,7 +28,7 @@
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:host="oauth" android:scheme="kakao1b3851b4ba4d17e19d4f9c9fa6f34e8d" />
+        <data android:host="oauth" android:scheme="kakaoe343b3d8de21a5cc9d42a7e369c18e92" />
       </intent-filter>
     </activity>
     </application>

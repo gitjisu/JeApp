@@ -15,7 +15,7 @@ import BackButton from '../../../components/UI/BackButton';
 import {AppNavigationType} from '../../../navigation/StackBase';
 import {ios} from '../../../styles/iosTheme';
 import {font} from '../../../styles/globalStyles';
-
+import NextButton from '../../../components/UI/NextButton';
 //api
 import authApiController from '../../../api/controller/auth';
 import {useSelector} from 'react-redux';
@@ -34,7 +34,7 @@ const VerificationCode = ({navigation}: Props) => {
   const dispatch = useAppDispatch();
   const phone = useSelector((state: RootState) => state.auth.phone);
   const [number, setNumber] = useState<string>('');
-  const [isNextPossible, setIsNextPossible] = useState('#BEEBD4');
+  const [isNextPossible, setIsNextPossible] = useState(false);
   const [isRequestFail, setIsRequestFail] = useState(false);
   const [isRequestExpired, setIsRequestExpired] = useState(false);
   const handleInputChange = (text: string) => {
@@ -42,7 +42,9 @@ const VerificationCode = ({navigation}: Props) => {
     const numericInput = text.replace(/[^0-9]/g, '');
     setNumber(numericInput);
     if (isValidSixDigitNumber) {
-      setIsNextPossible('#25A765');
+      setIsNextPossible(true);
+    } else {
+      setIsNextPossible(false);
     }
   };
   const [minutes, setMinutes] = useState<number>(5);
@@ -107,11 +109,10 @@ const VerificationCode = ({navigation}: Props) => {
       adid: '',
     };
     const user = await authApiController[2](payload);
-
     // 로그인 정상작동
     if (user.user) {
       if (user.user.ban) {
-        console.log('차단페이지 ㄱㄱ');
+        navigation.navigate('Ban', {id: user.user.id});
       } else {
         setItem('refreshToken', user.refreshToken);
         dispatch(
@@ -126,11 +127,11 @@ const VerificationCode = ({navigation}: Props) => {
       // 인증번호 불일치
     } else if (user === 401) {
       setIsRequestFail(true);
-      setIsNextPossible('#BEEBD4');
+      setIsNextPossible(false);
       startShakeAnimation(); // 화면 흔들림 애니메이션 시작
     } else {
       // 회원가입
-      navigation.navigate('Nickname');
+      navigation.navigate('Agreement');
     }
   };
   const handleReVerificationCode = () => {
@@ -140,16 +141,18 @@ const VerificationCode = ({navigation}: Props) => {
     setIsRequestFail(false);
     setIsRequestExpired(false);
     setNumber('');
-    setIsNextPossible('#BEEBD4');
+    setIsNextPossible(false);
     const payload = {
       phone: phone,
     };
     authApiController['1'](payload);
   };
+
+  const [nextButtonText] = useState('인증하기');
+
   return (
     <Pressable style={{flex: 1}} onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView
-        style={{backgroundColor: '#ffffff', flex: 1}}>
+      <SafeAreaView style={{backgroundColor: '#ffffff', flex: 1}}>
         {/* 뒤로가기버튼 */}
         <BackButton navigation={navigation} />
 
@@ -231,37 +234,12 @@ const VerificationCode = ({navigation}: Props) => {
           </Text>
         </Pressable>
 
-        <Pressable
-          onPress={() => {
-            // isNextPossible === '#25A765' ? handleNextPage() : undefined;
-            if (isNextPossible === '#25A765') {
-              handleNextPage();
-            } else {
-              startShakeAnimation();
-            }
-          }}
-          style={{
-            height:
-              Platform.OS === 'ios' ? 48 + ios.BOTTOM_INDICATOR_HEIGHT : 48,
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            justifyContent: 'center',
-            backgroundColor: isNextPossible,
-          }}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontFamily: font.preReg,
-              color: isNextPossible === '#F2F2F2' ? '#000000' : '#ffffff',
-              fontSize: 14,
-              lineHeight: 16.71,
-              paddingBottom:
-                Platform.OS === 'ios' ? ios.BOTTOM_INDICATOR_HEIGHT : undefined,
-            }}>
-            인증하기
-          </Text>
-        </Pressable>
+        <NextButton
+          handleNextPage={handleNextPage}
+          isNextPossible={isNextPossible}
+          nextButtonText={nextButtonText}
+          shakeAnimation={startShakeAnimation}
+        />
       </SafeAreaView>
     </Pressable>
   );

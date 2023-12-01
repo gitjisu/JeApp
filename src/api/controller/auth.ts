@@ -8,6 +8,9 @@ import {
   receive3,
   send7,
   receive7,
+  send8,
+  receive8,
+  receive155,
 } from '../type/auth';
 
 const authApiController = {
@@ -18,9 +21,7 @@ const authApiController = {
       data: {
         phone: payload.phone,
       },
-    })
-      .then(res => console.log('성공', res))
-      .catch(err => console.log('실패', err));
+    });
   },
   '2': async (payload: send2) => {
     return await axios({
@@ -36,15 +37,16 @@ const authApiController = {
     })
       .then(res => {
         const data: receive2 = res.data;
+        console.log(res);
         return data;
       })
       .catch(err => {
+        console.log(err);
         const data = err.response.status;
         return data;
       });
   },
   '3': async (payload: send3) => {
-    console.log(payload);
     return await axios({
       url: auth['3'](),
       method: 'post',
@@ -66,7 +68,7 @@ const authApiController = {
         return data;
       })
       .catch(err => {
-        console.log(err);
+        console.error('api3error', err);
       });
   },
   '7': async (payload: send7) => {
@@ -82,7 +84,36 @@ const authApiController = {
         return data;
       })
       .catch(err => {
-        console.log(err);
+        console.error('api7error', err);
+      });
+  },
+  '8': async (payload: send8) => {
+    return await axios({
+      url: auth['8'](),
+      method: 'get',
+      params: {
+        phone: payload.phone,
+      },
+    })
+      .then(res => {
+        const data: receive8 = res.data;
+        return data;
+      })
+      .catch(err => {
+        console.log(console.error('api8error', err));
+      });
+  },
+  '155': async (id: number) => {
+    return await axios({
+      url: auth['155'](id),
+      method: 'get',
+    })
+      .then(res => {
+        const data: receive155 = res.data.value;
+        return data;
+      })
+      .catch(err => {
+        console.error('api155error', err);
       });
   },
 };

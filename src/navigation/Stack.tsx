@@ -28,14 +28,24 @@ import Interest from '../screen/account/signup/Interest';
 import Region from '../screen/account/signup/Region';
 import SignupComplete from '../screen/account/signup/SignupComplete';
 
+// kakaoSignup
+import KakaoInterest from '../screen/account/signup/kakao/KakaoInterest';
+import KakaoNickname from '../screen/account/signup/kakao/KakaoNickname';
+import KakaoRegion from '../screen/account/signup/kakao/KakaoRegion';
+
 // store
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 
 // none login
 import VideoScreen from '../screen/account/login/VideoScreen';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import Ban from '../screen/account/login/Ban';
 
+// DesignSystem
+import TopFillTab2Page from '../screen/designSystem/TopFillTab2Page';
+import BottomFillTab2Page from '../screen/designSystem/BottomFillTab2Page';
+
+// test
 import Test from '../screen/account/signup/Test';
 
 const TabNav = () => {
@@ -288,13 +298,8 @@ const StackNav = () => {
       </Stack.Group>
     </Stack.Navigator>
   ) : (
-    <Stack.Navigator initialRouteName="Agreement">
+    <Stack.Navigator initialRouteName="BottomFillTab2Page">
       <Stack.Group>
-        <Stack.Screen
-          name="SignupComplete"
-          component={SignupComplete}
-          options={{headerShown: false, gestureEnabled: false}}
-        />
         <Stack.Screen
           name="VideoScreen"
           component={VideoScreen}
@@ -343,6 +348,42 @@ const StackNav = () => {
         <Stack.Screen
           name="Region"
           component={Region}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SignupComplete"
+          component={SignupComplete}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="KakaoInterest"
+          component={KakaoInterest}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="KakaoNickname"
+          component={KakaoNickname}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="KakaoRegion"
+          component={KakaoRegion}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="TopFillTab2Page"
+          component={TopFillTab2Page}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BottomFillTab2Page"
+          component={BottomFillTab2Page}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Ban"
+          component={Ban}
           options={{headerShown: false}}
         />
         <Stack.Screen

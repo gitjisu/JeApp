@@ -9,7 +9,7 @@ import {ios} from '../../../styles/iosTheme';
 
 //components
 import BackButton from '../../../components/UI/BackButton';
-
+import NextButton from '../../../components/UI/NextButton';
 type Props = {
   navigation: AppNavigationType;
 };
@@ -27,7 +27,7 @@ const Agreement = ({navigation}: Props) => {
   const [fifthChecked, setFifthChecked] = useState<boolean | undefined>(false);
   const [isNextPossible, setIsNextPossible] = useState<boolean>(false);
 
-  const [textWidth, setTextWidth] = useState(0);
+  // const [textWidth, setTextWidth] = useState(0);
   const handleSetAllChecked = () => {
     if (isAllChecked) {
       setIsAllChecked(false);
@@ -46,6 +46,8 @@ const Agreement = ({navigation}: Props) => {
     }
   };
 
+  const [nextButtonText] = useState('다음');
+
   useEffect(() => {
     // Check if first, second, and third are all true
     if (firstChecked && secondChecked && thirdChecked) {
@@ -54,38 +56,6 @@ const Agreement = ({navigation}: Props) => {
       setIsNextPossible(false);
     }
   }, [firstChecked, secondChecked, thirdChecked]);
-
-  // color Animation
-  const backgroundColorAnim = useRef(
-    new Animated.Value(isNextPossible ? 1 : 0),
-  ).current;
-
-  useEffect(() => {
-    Animated.timing(backgroundColorAnim, {
-      toValue: isNextPossible ? 1 : 0,
-      duration: 150,
-      useNativeDriver: false,
-    }).start();
-  }, [isNextPossible, backgroundColorAnim]);
-
-  const interpolatedColor = backgroundColorAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['#beebd4', '#25a765'],
-  });
-
-  const interpolateText = backgroundColorAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, -(textWidth + 8)],
-  });
-
-  const interpolateOpacityIn = backgroundColorAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 1],
-  });
-  const interpolateOpacityOut = backgroundColorAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 0],
-  });
 
   useEffect(() => {
     const areAllChecked =
@@ -98,7 +68,7 @@ const Agreement = ({navigation}: Props) => {
   }, [fifthChecked, secondChecked, thirdChecked, fourthChecked, fifthChecked]);
 
   const handleNextPage = () => {
-    navigation.navigate('AuthenticationPhoneNumber');
+    navigation.navigate('Nickname');
   };
 
   return (
@@ -124,7 +94,7 @@ const Agreement = ({navigation}: Props) => {
             color: '#000000',
           }}>
           오이를 사용하기 위해 {'\n'}
-          회원님의 정보가 필요해요{textWidth}
+          회원님의 정보가 필요해요
         </Text>
       </View>
 
@@ -413,58 +383,11 @@ const Agreement = ({navigation}: Props) => {
           style={{width: 16, height: 16}}
         />
       </View>
-      <Pressable
-        onPress={() => {
-          isNextPossible ? handleNextPage() : undefined;
-        }}
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-        }}>
-        <Animated.View
-          style={{
-            height:
-              Platform.OS === 'ios' ? 48 + ios.BOTTOM_INDICATOR_HEIGHT : 48,
-            justifyContent: 'center',
-            backgroundColor: interpolatedColor,
-            paddingBottom:
-              Platform.OS === 'ios' ? ios.BOTTOM_INDICATOR_HEIGHT : undefined,
-            flexDirection: 'row',
-          }}>
-          <Animated.Text
-            onLayout={event => {
-              setTextWidth(event.nativeEvent.layout.width);
-            }}
-            style={{
-              textAlign: 'center',
-              fontFamily: font.preReg,
-              color: '#ffffff',
-              fontSize: 14,
-              lineHeight: 16.71,
-              alignSelf: 'center',
-              marginLeft: textWidth,
-              transform: [{translateX: interpolateText}],
-              opacity: interpolateOpacityOut,
-            }}>
-            다음
-          </Animated.Text>
-          <Animated.Text
-            style={{
-              textAlign: 'center',
-              fontFamily: font.preReg,
-              color: '#ffffff',
-              fontSize: 14,
-              lineHeight: 16.71,
-              alignSelf: 'center',
-              marginLeft: 8,
-              transform: [{translateX: interpolateText}],
-              opacity: interpolateOpacityIn,
-            }}>
-            다음
-          </Animated.Text>
-        </Animated.View>
-      </Pressable>
+      <NextButton
+        isNextPossible={isNextPossible}
+        handleNextPage={handleNextPage}
+        nextButtonText={nextButtonText}
+      />
     </SafeAreaView>
   );
 };

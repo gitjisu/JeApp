@@ -5,6 +5,7 @@ import {
   Pressable,
   Platform,
   Keyboard,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -13,7 +14,7 @@ import {font} from '../../../styles/globalStyles';
 import BackButton from '../../../components/UI/BackButton';
 import {AppNavigationType} from '../../../navigation/StackBase';
 import {ios} from '../../../styles/iosTheme';
-
+import NextButton from '../../../components/UI/NextButton';
 // api
 import authApiController from '../../../api/controller/auth';
 import {useAppDispatch} from '../../../store';
@@ -35,15 +36,28 @@ const AuthenticationPhoneNumber = ({navigation}: Props) => {
     setIsNextPossible(isValidPhoneNumber);
   };
 
-  const handleNextPage = () => {
-    // 인증번호 요청
+  const handleNextPage = async () => {
     const payload = {
       phone: number,
     };
-    authApiController['1'](payload);
-    dispatch(authSlice.actions.setPhone({phone: number}));
-    navigation.navigate('VerificationCode');
+    // 1주일 내 탈퇴한 회원이면 Alert
+    const response = await authApiController['8'](payload);
+    if (response?.existence) {
+      Alert.alert('가입불가', '1주일 이내 탈퇴 유저라능', [
+        {
+          text: 'Ok',
+          style: 'cancel',
+        },
+      ]);
+    } else {
+      // 아니면인증번호 요청
+      authApiController['1'](payload);
+      dispatch(authSlice.actions.setPhone({phone: number}));
+      navigation.navigate('VerificationCode');
+    }
   };
+
+  const [nextButtonText] = useState('인증번호받기');
   return (
     <Pressable style={{flex: 1}} onPress={() => Keyboard.dismiss()}>
       <SafeAreaView
@@ -83,32 +97,11 @@ const AuthenticationPhoneNumber = ({navigation}: Props) => {
         </Pressable>
 
         {/* 다음버튼 */}
-        <Pressable
-          onPress={() => {
-            isNextPossible ? handleNextPage() : undefined;
-          }}
-          style={{
-            height:
-              Platform.OS === 'ios' ? 48 + ios.BOTTOM_INDICATOR_HEIGHT : 48,
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            justifyContent: 'center',
-            backgroundColor: isNextPossible ? '#25a765' : '#F2F2F2',
-          }}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontFamily: font.preReg,
-              color: isNextPossible ? '#ffffff' : '#000000',
-              fontSize: 14,
-              lineHeight: 16.71,
-              paddingBottom:
-                Platform.OS === 'ios' ? ios.BOTTOM_INDICATOR_HEIGHT : undefined,
-            }}>
-            인증번호 받기
-          </Text>
-        </Pressable>
+        <NextButton
+          isNextPossible={isNextPossible}
+          handleNextPage={handleNextPage}
+          nextButtonText={nextButtonText}
+        />
       </SafeAreaView>
     </Pressable>
   );

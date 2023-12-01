@@ -12,22 +12,22 @@ import React, {useEffect, useState, useRef} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 //component
-import BackButton from '../../../components/UI/BackButton';
-import {AppNavigationType} from '../../../navigation/StackBase';
-import {ios} from '../../../styles/iosTheme';
-import {font} from '../../../styles/globalStyles';
-import NextButton from '../../../components/UI/NextButton';
+import BackButton from '../../../../components/UI/BackButton';
+import {AppNavigationType} from '../../../../navigation/StackBase';
+import {ios} from '../../../../styles/iosTheme';
+import {font} from '../../../../styles/globalStyles';
+import NextButton from '../../../../components/UI/NextButton';
 //api
-import {useAppDispatch} from '../../../store';
-import authSlice from '../../../slices/auth';
+import {useAppDispatch} from '../../../../store';
+import authSlice from '../../../../slices/auth';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../../store/reducer';
+import {RootState} from '../../../../store/reducer';
 
 type Props = {
   navigation: AppNavigationType;
 };
 
-const Interest = ({navigation}: Props) => {
+const KakaoInterest = ({navigation}: Props) => {
   const INTEREST = [
     '등산',
     '골프',
@@ -122,7 +122,7 @@ const Interest = ({navigation}: Props) => {
 
   const handleNextPage = () => {
     dispatch(authSlice.actions.setInterest({interest: [...selectedValue]}));
-    navigation.navigate('Region');
+    navigation.navigate('KakaoRegion');
   };
   return (
     <SafeAreaView style={{backgroundColor: '#ffffff', flex: 1}}>
@@ -139,6 +139,7 @@ const Interest = ({navigation}: Props) => {
             fontFamily: font.preReg,
             color: '#000000',
           }}>
+          카카오가입{'\n'}
           관심있는 분야를{'\n'}선택해주세요 {'(최대 8개)'}
         </Text>
       </Animated.View>
@@ -231,37 +232,8 @@ const Interest = ({navigation}: Props) => {
         nextButtonText="다음"
         shakeAnimation={startShakeAnimation}
       />
-      {/* <Pressable
-        onPress={() => {
-          if (isNextPossible) {
-            handleNextPage();
-          } else {
-            startShakeAnimation();
-          }
-        }}
-        style={{
-          height: Platform.OS === 'ios' ? 48 + ios.BOTTOM_INDICATOR_HEIGHT : 48,
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-          justifyContent: 'center',
-          backgroundColor: isNextPossible ? '#25a765' : '#f2f2f2',
-        }}>
-        <Text
-          style={{
-            textAlign: 'center',
-            fontFamily: font.preReg,
-            color: isNextPossible ? '#ffffff' : '#000000',
-            fontSize: 14,
-            lineHeight: 16.71,
-            paddingBottom:
-              Platform.OS === 'ios' ? ios.BOTTOM_INDICATOR_HEIGHT : undefined,
-          }}>
-          다음
-        </Text>
-      </Pressable> */}
     </SafeAreaView>
   );
 };
 
-export default Interest;
+export default KakaoInterest;
