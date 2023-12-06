@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  Animated,
-  Pressable,
-  PanResponder,
-  Dimensions,
-} from 'react-native';
+import {View, Animated, Pressable} from 'react-native';
 import React, {
   forwardRef,
   useEffect,
@@ -22,14 +15,14 @@ type Props = {
   handleParentPageByChildIndex: (index: number) => void;
 };
 
-export type TopFillTab2Ref = {
+export type BottomFillTab2Ref = {
   setFillTabPosition: (position: number) => void;
   fillTabPosition: number;
   handlePressLeft: () => void;
   handlePressRight: () => void;
 };
 
-const TopFillTab2 = forwardRef<TopFillTab2Ref, Props>((props, ref) => {
+const BottomFillTab2 = forwardRef<BottomFillTab2Ref, Props>((props, ref) => {
   const [fillTabPosition, setFillTabPosition] = useState(0);
   const [fillTabOutPutRange, setFillTabOutPutRange] = useState(0);
 
@@ -114,49 +107,45 @@ const TopFillTab2 = forwardRef<TopFillTab2Ref, Props>((props, ref) => {
         }}>
         <View
           style={{
+            flex: 1,
             flexDirection: 'row',
-            justifyContent: 'space-between',
           }}>
           <Animated.View
             onLayout={event => {
-              setFillTabOutPutRange(event.nativeEvent.layout.width - 8);
+              setFillTabOutPutRange(event.nativeEvent.layout.width);
             }}
             style={{
               backgroundColor: '#26BD71',
-              marginHorizontal: 4,
-              marginVertical: 4,
-              height: 60,
+              height: '100%',
               width: '50%',
-              borderRadius: 18,
               position: 'absolute',
+              borderRadius: 18,
               transform: [{translateX: interpolateX}],
             }}></Animated.View>
           <Pressable
             style={{
-              alignItems: 'center',
               flex: 1,
+              justifyContent: 'center',
             }}
             onPress={handlePressLeft}>
             <Animated.Text
               style={{
-                justifyContent: 'center',
+                textAlign: 'center',
                 fontFamily: font.preBold,
                 fontSize: 18,
-                marginTop: 21,
                 color: interpolateText1Color,
               }}>
               {props.text1}
             </Animated.Text>
           </Pressable>
           <Pressable
-            style={{alignItems: 'center', flex: 1}}
+            style={{flex: 1, justifyContent: 'center'}}
             onPress={handlePressRight}>
             <Animated.Text
               style={{
-                justifyContent: 'center',
+                textAlign: 'center',
                 fontFamily: font.preBold,
                 fontSize: 18,
-                marginTop: 21,
                 color: interpolateText2Color,
               }}>
               {props.text2}
@@ -168,4 +157,4 @@ const TopFillTab2 = forwardRef<TopFillTab2Ref, Props>((props, ref) => {
   );
 });
 
-export default TopFillTab2;
+export default BottomFillTab2;

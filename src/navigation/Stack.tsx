@@ -43,8 +43,10 @@ import Ban from '../screen/account/login/Ban';
 
 // DesignSystem
 import TopFillTab2Page from '../screen/designSystem/TopFillTab2Page';
+import TopFillTab3Page from '../screen/designSystem/TopFillTab3Page';
 import BottomFillTab2Page from '../screen/designSystem/BottomFillTab2Page';
-
+import BottomFillTab3Page from '../screen/designSystem/BottomFillTab3Page';
+import PopUpPage from '../screen/designSystem/PopUpPage';
 // test
 import Test from '../screen/account/signup/Test';
 
@@ -298,7 +300,7 @@ const StackNav = () => {
       </Stack.Group>
     </Stack.Navigator>
   ) : (
-    <Stack.Navigator initialRouteName="BottomFillTab2Page">
+    <Stack.Navigator initialRouteName="PopUpPage">
       <Stack.Group>
         <Stack.Screen
           name="VideoScreen"
@@ -379,6 +381,21 @@ const StackNav = () => {
         <Stack.Screen
           name="BottomFillTab2Page"
           component={BottomFillTab2Page}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BottomFillTab3Page"
+          component={BottomFillTab3Page}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TopFillTab3Page"
+          component={TopFillTab3Page}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PopUpPage"
+          component={PopUpPage}
           options={{headerShown: false}}
         />
         <Stack.Screen

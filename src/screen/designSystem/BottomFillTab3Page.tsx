@@ -1,49 +1,45 @@
-import {View, Text, Dimensions, Image, FlatList, Pressable} from 'react-native';
-import React, {useEffect, useImperativeHandle, useRef, useState} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import PopUpType1 from '../../components/UI/PopUp/PopUpType1';
-// component
-import BottomFillTab2, {
-  BottomFillTab2Ref,
-} from '../../components/UI/BottomFillTab2';
-import {font} from '../../styles/globalStyles';
-
+import {View, Text, FlatList, Dimensions, Image} from 'react-native';
+import React, {useRef} from 'react';
 import {
-  GestureDetector,
   Gesture,
+  GestureDetector,
   ScrollView,
 } from 'react-native-gesture-handler';
-
-import {BlurView} from '@react-native-community/blur';
+import BottomFillTab3, {
+  BottomFillTab3Ref,
+} from '../../components/UI/BottomFillTab3';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {font} from '../../styles/globalStyles';
 
 const data = [
   {
-    key: 'jungkook',
-    image: require('../../assets/jungkook1.png'),
+    key: 'penguin',
+    image: require('../../assets/penguin.png'),
     text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem IpsumLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
   },
   {
-    key: 'timo',
-    image: require('../../assets/timo.png'),
+    key: 'panda',
+    image: require('../../assets/panda.png'),
+    text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem IpsumLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
+  },
+  {
+    key: 'bulgogi',
+    image: require('../../assets/bulgogi.png'),
     text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem IpsumLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
   },
 ];
-
 type RenderItemType = {
   item: (typeof data)[0];
   index: number;
 };
-
-const BottomFillTab2Page = () => {
-  const topFillTabRef = useRef<BottomFillTab2Ref>(null);
+const BottomFillTab3Page = () => {
+  const topFillTabRef = useRef<BottomFillTab3Ref>(null);
   const flatListRef = useRef<FlatList>(null);
-
   const handleParentPageByChildIndex = (index: number) => {
     if (flatListRef.current) {
       flatListRef.current.scrollToIndex({animated: true, index: index});
     }
   };
-  const [popup1Visible, setPopup1Visible] = useState(false);
   const renderItem = ({item, index}: RenderItemType) => (
     <ScrollView
       nestedScrollEnabled={true}
@@ -53,45 +49,27 @@ const BottomFillTab2Page = () => {
         height: '100%',
         width: Dimensions.get('window').width,
       }}>
-      <PopUpType1
-        isVisible={popup1Visible}
-        setPopup1Visible={setPopup1Visible}
-      />
       <View style={{width: '100%'}}>
         <Image
           style={{width: '100%'}}
           resizeMode="contain"
           source={item.image}
         />
-        <BlurView
-          style={{
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-            backgroundColor: '#rgba(200,0,0,0.5)',
-          }}
-          blurType="light"
-          reducedTransparencyFallbackColor="white"
-        />
       </View>
-      <Pressable
-        onPress={() => {
-          setPopup1Visible(prev => !prev);
+      <Text
+        style={{
+          fontFamily: font.preReg,
+          fontSize: 18,
+          color: '#5e6570',
+          lineHeight: 36,
+          marginBottom: 150,
         }}>
-        <Text
-          style={{
-            fontFamily: font.preReg,
-            fontSize: 18,
-            color: '#5e6570',
-            lineHeight: 36,
-          }}>
-          {index} :{item.text}
-        </Text>
-      </Pressable>
+        {index} :{item.text}
+      </Text>
     </ScrollView>
   );
 
-  const test = Gesture.Pan()
+  const swipe = Gesture.Pan()
     .runOnJS(true)
     .onUpdate(e => {
       if (e.translationX > 0) {
@@ -102,7 +80,7 @@ const BottomFillTab2Page = () => {
           });
         }
       } else {
-        if (topFillTabRef.current?.fillTabPosition != 1) {
+        if (topFillTabRef.current?.fillTabPosition != 2) {
           flatListRef.current?.scrollToOffset({
             animated: true,
             offset: -e.translationX,
@@ -112,17 +90,27 @@ const BottomFillTab2Page = () => {
     })
     .onEnd(e => {
       if (e.translationX > 0) {
-        topFillTabRef.current?.handlePressLeft();
+        if (topFillTabRef.current?.fillTabPosition === 1) {
+          topFillTabRef.current?.handlePressLeft();
+        } else if (topFillTabRef.current?.fillTabPosition === 2) {
+          topFillTabRef.current?.handlePressCenter();
+        }
       } else {
-        topFillTabRef.current?.handlePressRight();
+        if (topFillTabRef.current?.fillTabPosition === 0) {
+          topFillTabRef.current?.handlePressCenter();
+        } else if (topFillTabRef.current?.fillTabPosition === 1) {
+          topFillTabRef.current?.handlePressRight();
+        }
       }
     });
 
   return (
     <SafeAreaView
-      style={{flex: 1, backgroundColor: '#ffffff'}}
-      edges={['top', 'left', 'right']}>
-      <GestureDetector gesture={test}>
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+      }}>
+      <GestureDetector gesture={swipe}>
         <FlatList
           nestedScrollEnabled={true}
           ref={flatListRef}
@@ -135,15 +123,15 @@ const BottomFillTab2Page = () => {
           scrollEnabled={false}
         />
       </GestureDetector>
-
-      <BottomFillTab2
+      <BottomFillTab3
         ref={topFillTabRef}
-        text1="탑정구기보러가기"
-        text2="탑티모보러가기"
+        text1="펭구인"
+        text2="판다"
+        text3="불고기아저씨"
         handleParentPageByChildIndex={handleParentPageByChildIndex}
       />
     </SafeAreaView>
   );
 };
 
-export default BottomFillTab2Page;
+export default BottomFillTab3Page;
