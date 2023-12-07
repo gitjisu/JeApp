@@ -1,4 +1,4 @@
-import {View, Animated, Pressable} from 'react-native';
+import {View, Animated, Pressable, Keyboard} from 'react-native';
 import React, {
   forwardRef,
   useEffect,
@@ -25,6 +25,7 @@ export type BottomFillTab2Ref = {
 const BottomFillTab2 = forwardRef<BottomFillTab2Ref, Props>((props, ref) => {
   const [fillTabPosition, setFillTabPosition] = useState(0);
   const [fillTabOutPutRange, setFillTabOutPutRange] = useState(0);
+
 
   useEffect(() => {
     props.handleParentPageByChildIndex(fillTabPosition);

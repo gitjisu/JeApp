@@ -6,15 +6,16 @@ import {font} from '../../../styles/globalStyles';
 
 type Props = {
   isVisible: boolean;
-  setPopup1Visible: (boolean: boolean) => void;
+  setPopup3Visible: (boolean: boolean) => void;
   titleText: string;
   descriptionText: string;
   okText: string;
+  cancelText: string;
 };
 
-export type PopUpType1Ref = {};
+export type PopUpType3Ref = {};
 
-const PopUpType1 = forwardRef<PopUpType1Ref, Props>((props, ref) => {
+const PopUpType3 = forwardRef<PopUpType3Ref, Props>((props, ref) => {
   return (
     <ReactNativeModal
       backdropColor="rgba(0,0,0,0.3)"
@@ -73,28 +74,56 @@ const PopUpType1 = forwardRef<PopUpType1Ref, Props>((props, ref) => {
               {props.descriptionText}
             </Text>
           </View>
-          <Pressable
-            onPress={() => props.setPopup1Visible(!props.isVisible)}
+          <View
             style={{
-              backgroundColor: '#26BD71',
-              paddingVertical: 17.5,
-              borderRadius: 13,
+              flexDirection: 'row',
             }}>
-            <Text
+            <Pressable
+              onPress={() => props.setPopup3Visible(!props.isVisible)}
               style={{
-                textAlign: 'center',
-                color: '#ffffff',
-                fontFamily: font.preReg,
-                fontSize: 17,
-                lineHeight: 17,
+                flex: 1,
+                marginRight: 4,
+                backgroundColor: 'rgba(247, 248, 249, 1)',
+
+                paddingVertical: 17.5,
+                borderRadius: 13,
               }}>
-              {props.okText}
-            </Text>
-          </Pressable>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: 'rgba(130, 136, 148, 1)',
+                  fontFamily: font.preReg,
+                  fontSize: 17,
+                  lineHeight: 17,
+                }}>
+                {props.cancelText}
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => props.setPopup3Visible(!props.isVisible)}
+              style={{
+                flex: 1,
+                marginLeft: 4,
+                backgroundColor: '#26BD71',
+                paddingVertical: 17.5,
+                borderRadius: 13,
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: '#ffffff',
+                  fontFamily: font.preReg,
+                  fontSize: 17,
+                  lineHeight: 17,
+                }}>
+                {props.okText}
+              </Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </ReactNativeModal>
   );
 });
 
-export default PopUpType1;
+export default PopUpType3;

@@ -27,6 +27,30 @@ const AuthenticationPhoneNumber = ({navigation}: Props) => {
   const dispatch = useAppDispatch();
   const [number, setNumber] = useState<string>('010');
   const [isNextPossible, setIsNextPossible] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
+  useEffect(() => {
+    // 키보드가 나타날 때의 이벤트 리스너
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      e => {
+        setKeyboardHeight(e.endCoordinates.height);
+      },
+    );
+
+    // 키보드가 사라질 때의 이벤트 리스너
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0); // 키보드가 사라질 때는 높이를 0으로 설정
+      },
+    );
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   const handleInputChange = (text: string) => {
     // 정규 표현식을 사용하여 숫자만 입력받도록 설정
@@ -59,7 +83,12 @@ const AuthenticationPhoneNumber = ({navigation}: Props) => {
 
   const [nextButtonText] = useState('인증번호받기');
   return (
-    <Pressable style={{flex: 1}} onPress={() => Keyboard.dismiss()}>
+    <Pressable
+      style={{
+        flex: 1,
+        paddingBottom: Platform.OS === 'ios' ? keyboardHeight - 40 : 0,
+      }}
+      onPress={() => Keyboard.dismiss()}>
       <SafeAreaView
         style={{
           backgroundColor: '#ffffff',
@@ -81,7 +110,11 @@ const AuthenticationPhoneNumber = ({navigation}: Props) => {
         </View>
 
         {/* 핸드폰 입력 인풋 필드 */}
-        <Pressable style={{paddingHorizontal: 32, paddingTop: 16}}>
+        <Pressable
+          style={{
+            paddingHorizontal: 32,
+            paddingTop: 16,
+          }}>
           <TextInput
             keyboardType="numeric"
             value={number}

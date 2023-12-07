@@ -300,7 +300,7 @@ const StackNav = () => {
       </Stack.Group>
     </Stack.Navigator>
   ) : (
-    <Stack.Navigator initialRouteName="PopUpPage">
+    <Stack.Navigator initialRouteName="AuthenticationPhoneNumber">
       <Stack.Group>
         <Stack.Screen
           name="VideoScreen"

@@ -1,4 +1,12 @@
-import {View, Text, FlatList, Dimensions, Image} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Dimensions,
+  Image,
+  TextInput,
+  Keyboard,
+} from 'react-native';
 import React, {useRef} from 'react';
 import {
   Gesture,
@@ -8,7 +16,7 @@ import {
 import TopFillTab3, {TopFillTab3Ref} from '../../components/UI/TopFillTab3';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {font} from '../../styles/globalStyles';
-
+import DismissKeyboardView from '../../components/UI/DismissKeyboardView';
 const data = [
   {
     key: 'penguin',
@@ -53,6 +61,19 @@ const TopFillTab3Page = () => {
           resizeMode="contain"
           source={item.image}
         />
+      </View>
+      <View
+        style={{
+          alignItems: 'center',
+        }}>
+        <TextInput
+          placeholder="텍스틀 입력해주세요"
+          style={{
+            borderRadius: 16,
+            width: '80%',
+            padding: 16,
+            backgroundColor: '#f1f1f1',
+          }}></TextInput>
       </View>
       <Text
         style={{
@@ -102,6 +123,7 @@ const TopFillTab3Page = () => {
     });
 
   return (
+    // <DismissKeyboardView style={{flex: 1, backgroundColor: 'red'}}>
     <SafeAreaView
       style={{
         flex: 1,
@@ -114,6 +136,7 @@ const TopFillTab3Page = () => {
         text3="불고기아저씨"
         handleParentPageByChildIndex={handleParentPageByChildIndex}
       />
+
       <GestureDetector gesture={swipe}>
         <FlatList
           nestedScrollEnabled={true}
@@ -128,6 +151,7 @@ const TopFillTab3Page = () => {
         />
       </GestureDetector>
     </SafeAreaView>
+    // </DismissKeyboardView>
   );
 };
 
